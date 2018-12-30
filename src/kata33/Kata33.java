@@ -11,12 +11,19 @@ package kata33;
  */
 public class Kata33 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
-        HistogramDisplay histo = new HistogramDisplay();
+        
+        Histogram<String> histogram= new Histogram<>();
+        histogram.increment("gmail.com");
+        histogram.increment("gmail.com");
+        histogram.increment("gmail.com");
+        histogram.increment("hotmail.es");
+        histogram.increment("hotmail.es");
+        histogram.increment("hotmail.es");
+        histogram.increment("outlook.com");
+        histogram.increment("outlook.com");
+        histogram.increment("ulpgc.es");
+        HistogramDisplay histo = new HistogramDisplay("HISTOGRAMA", histogram);
         histo.execute();
     }
 }

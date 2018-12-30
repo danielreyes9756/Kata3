@@ -9,44 +9,53 @@ package kata33;
  *
  * @author danie
  */
+/**
+ *
+ * @author danie
+ */
 import java.awt.Dimension;
-import org.jfree.ui.ApplicationFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.ApplicationFrame;
 
 
 public class HistogramDisplay extends ApplicationFrame{
     
-    public HistogramDisplay() {
-        super("HISTOGRAMA");
+    private final Histogram<String> histogram;
+    
+    public HistogramDisplay(String title, Histogram<String> histogram) {
+        super(title);
+        this.histogram = histogram;
         setContentPane(createPanel());
-        pack();
     }
-    public void execute() {
+
+    public void execute(){
         setVisible(true);
     }
-    public JPanel createPanel() {
-        ChartPanel chartpanel = new ChartPanel(createChart(createDataset()));
-        chartpanel.setPreferredSize(new Dimension(500,400));
-        return chartpanel;
-    }
-    private JFreeChart createChart(DefaultCategoryDataset dataSet) {
-        JFreeChart chart = ChartFactory.createBarChart("Histograma JFreeChart", "Dominios"
-        +"email", "Nº de emails", dataSet, PlotOrientation.VERTICAL,
-        false, false, rootPaneCheckingEnabled);
-        return chart;
+    
+    private JPanel createPanel(){
+        ChartPanel chartPanel = new ChartPanel(createChart(createDataset()));
+        chartPanel.setPreferredSize(new Dimension(500,400));
+        return chartPanel;
     }
     
+    private JFreeChart createChart(DefaultCategoryDataset dataSet){
+        JFreeChart c = ChartFactory.createBarChart3D("Histograma JFreeChart", 
+                "Dominios email", "Nº de emails", dataSet, PlotOrientation.VERTICAL, 
+                false, false, rootPaneCheckingEnabled);
+        return c;
+    }
     
-    public DefaultCategoryDataset createDataset() {
-        DefaultCategoryDataset dataSet  = new DefaultCategoryDataset();
-        dataSet.addValue(5, "", "ulpgc.es");
-        dataSet.addValue(10, "", "ull.es");
-        dataSet.addValue(13, "", "google.com");
+    private DefaultCategoryDataset createDataset(){
+        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+        
+        for (String key : histogram.keySet()) {
+            dataSet.addValue(histogram.get(key), "", key);
+        }
         return dataSet;
-    }
+    } 
 }
